@@ -1,0 +1,38 @@
+{
+  "produtos": [
+    {
+      "id": 1,
+      "nome": "Retrovisor"
+    },
+    {
+      "id": 2,
+      "nome": "Calota"
+    },
+    {
+      "id": 34,
+      "nome": "Volante"
+    }
+  ],
+  "clientes": [
+    {
+      "id": 1,
+      "username": "joaomarcos",
+      "senha": "123456"
+    },
+    {
+      "id": 2,
+      "username": "thiagott",
+      "senha": "000"
+    },
+    {
+      "username": "miguelvs",
+      "senha": "40028922",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "username": "juliana",
+      "senha": "2244000"
+    }
+  ]
+}
