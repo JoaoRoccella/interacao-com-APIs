@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "json-server": "^0.17.4"
+  },
+  "scripts": {
+    "start": "json-server --watch data/database.json --port 3000",
+    "test": ""
   }
 }
