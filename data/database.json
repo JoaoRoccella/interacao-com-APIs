@@ -2,11 +2,13 @@
   "produtos": [
     {
       "id": 1,
-      "nome": "Retrovisor"
+      "nome": "Retrovisor",
+      "tipo": "Carroceria"
     },
     {
       "id": 2,
-      "nome": "Calota"
+      "nome": "Calota",
+      "tipo": "Carroceria"
     },
     {
       "id": 3,
@@ -52,8 +54,8 @@
   ],
   "carrinhos": [
     {
-        "id": 1,
-        "data": "2023-12-13"
+      "id": 1,
+      "data": "2023-12-13"
     }
   ]
 }

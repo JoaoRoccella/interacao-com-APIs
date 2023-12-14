@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interação com APIs | Read com GET</title>
+</head>
+<body>
+    <h1>Read com GET</h1>
+    <a href="./index.html">⇱ Home</a>
+
+    <button type="button" id="carregar">Carregar Produtos</button>
+
+    <div id="produtos">
+        <h2>Produtos</h2>
+    </div>
+    
+    <script>
+        document.querySelector('#carregar').addEventListener('click', () => {
+
+            fetch('https://psychic-robot-w4rxx576wvc9vq-3000.app.github.dev/produtos', {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(resposta => resposta.json())
+            .then(resposta => {
+
+                const divProdutos = document.querySelector('#produtos');
+                const tituloProdutos = document.createElement('h2');
+                
+                divProdutos.innerHTML = '';
+                tituloProdutos.innerHTML = 'Produtos';
+                divProdutos.append(tituloProdutos);
+
+                resposta.forEach(produto => {
+                    divProdutos.innerHTML += `<ul><li>ID: ${produto.id}</li><li>Nome: ${produto.nome}</li></ul>`;
+                });
+            })
+
+        })
+    </script>
+</body>
+</html>
