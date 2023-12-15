@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interação com APIs | Read com GET</title>
+</head>
+<body>
+    <h1>Create com POST 🎉 (。・ω・。)</h1>
+    <a href="./index.html">Home 🏡</a><br>
+
+    <form action="" method="post">
+
+        <div class="controle-form">
+            <label for="idProdutos">ID</label>
+            <input type="text" id="idProdutos" name="idProdutos">
+        </div>
+
+        <div class="controle-form">
+            <label for="nomeProdutos">Nome</label>
+            <input type="text" id="nomeProdutos" name="nomeProdutos">
+        </div>
+
+        <button type="button" id="cadastrar">Cadastrar</button>
+
+    </form>
+
+    <button type="button" id="carregar">Carregar Produtos</button>
+
+    <div id="produtos"></div>
+
+    <script>
+        document.querySelector('#cadastrar').addEventListener('click', () =>{
+
+            const dadosProduto = {
+                "id": null,
+                "nome": document.querySelector('#nomeProdutos').value
+            }
+
+            fetch('https://scaling-train-qp75wr7r6vr3565-3000.app.github.dev/produtos', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(dadosProduto)
+            }).then(resposta => {
+                if (resposta.ok) {
+                    window.alert('Produto cadastrado com S U C E S S O ! ! !');
+                }else{
+                    window.alert('E R R O ! ! !');
+                }
+            })
+        })
+
+        document.querySelector('#carregar').addEventListener('click', () => {
+            fetch('https://scaling-train-qp75wr7r6vr3565-3000.app.github.dev/produtos', {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then(resposta => resposta.json())
+            .then(resposta => {
+
+                const produtos = document.querySelector('#produtos');
+                const tituloProdutos = document.createElement('h2');
+
+                produtos.innerHTML = '';
+                tituloProdutos.innerHTML = 'Produtos';
+                produtos.append(tituloProdutos);
+
+                resposta.forEach(produto => {
+                    produtos.innerHTML += `<ul><li>ID: ${produto.id}</li><li>Nome: ${produto.nome}</li></ul>`;
+                });
+            })
+        })
+    </script>
+</body>
+</html>
