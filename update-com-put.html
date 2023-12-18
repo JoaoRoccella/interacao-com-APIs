@@ -6,32 +6,33 @@
     <title>Interação com APIs</title>
 </head>
 <body>
-    <h1>CREATE com POST ✨</h1>
+    <h1>UPDATE com PUT 🤞</h1>
     <a href="./index.html">↩ Home</a>
 
     <form action="" method="post">
 
         <div class="controle-form">
             <label for="idProduto">ID:</label>
-            <input type="text" id="idProduto" name="idProduto" disabled>
+            <input type="number" min="1" id="idProduto" name="idProduto" required>
         </div>
 
         <div class="controle-form">
             <label for="nomeProduto">Nome:</label>
-            <input type="text" id="nomeProduto" name="nomeProduto">
+            <input type="text" id="nomeProduto" name="nomeProduto" required>
         </div>
 
         <div class="controle-form">
             <label for="tipoProduto">Tipo:</label>
             <select name="tipoProduto" id="tipoProduto">
                 <option value="Controle" selected>Controle</option>
+                <option value="Segurança">Segurança</option>
                 <option value="Suspensão">Suspensão</option>
                 <option value="Carroceria">Carroceria</option>
                 <option value="Acessório">Acessório</option>
             </select>
         </div>
 
-        <button type="button" id="cadastrar">Cadastrar</button>
+        <button type="button" id="atualizar">Atualizar</button>
 
     </form>
 
@@ -40,7 +41,7 @@
     <script>
         buscaProdutos();
 
-        document.querySelector('#cadastrar').addEventListener('click', () => {
+        document.querySelector('#atualizar').addEventListener('click', () => {
 
             const dadosProduto = {
                 "id": null,
@@ -48,8 +49,10 @@
                 "tipo": document.querySelector('#tipoProduto').value
             }
 
-            fetch('http://[::1]:3000/produtos', {
-                method: 'POST',
+            const idProduto = document.querySelector('#idProduto').value;
+
+            fetch(`http://[::1]:3000/produtos/${idProduto}`, {
+                method: 'PUT',
                 headers: {
                     'Content-type': 'application/json'
                 },
@@ -57,7 +60,7 @@
             })
             .then(resposta => {
                 if (resposta.ok) {
-                    window.alert('Produto cadastrado!');
+                    window.alert('Produto atualizado!');
                     buscaProdutos();
                 } else {
                     window.alert('Erro');

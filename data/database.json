@@ -1,24 +1,24 @@
 {
   "produtos": [
     {
-      "id": 1,
-      "nome": "Retrovisor"
+      "id": 37,
+      "nome": "Mola de suspensão",
+      "tipo": "Suspensão"
     },
     {
-      "id": 2,
-      "nome": "Calota"
+      "id": 38,
+      "nome": "Alavanca do câmbio",
+      "tipo": "Controle"
     },
     {
-      "id": 34,
-      "nome": "Volante"
+      "id": 39,
+      "nome": "Buzina",
+      "tipo": "Controle"
     },
     {
-      "id": 35,
-      "nome": "Escapamento"
-    },
-    {
-      "id": 36,
-      "nome": "Pneu"
+      "id": 40,
+      "nome": "Alavanca de seta",
+      "tipo": "Controle"
     }
   ],
   "clientes": [
