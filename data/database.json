@@ -3,17 +3,7 @@
     {
       "id": 1,
       "nome": "Retrovisor",
-      "tipo": "Carroceria"
-    },
-    {
-      "id": 2,
-      "nome": "Calota",
-      "tipo": "Carroceria"
-    },
-    {
-      "id": 3,
-      "nome": "Volante",
-      "tipo": "Controle"
+      "tipo": "Segurança"
     },
     {
       "id": 4,
@@ -26,11 +16,6 @@
       "tipo": "Controle"
     },
     {
-      "id": 6,
-      "nome": "Buzina",
-      "tipo": "Controle"
-    },
-    {
       "id": 7,
       "nome": "Escapamento",
       "tipo": "Carroceria"
@@ -38,6 +23,11 @@
     {
       "id": 8,
       "nome": "Radio",
+      "tipo": "Opcional"
+    },
+    {
+      "id": 9,
+      "nome": "Alavanca de seta",
       "tipo": "Opcional"
     }
   ],
