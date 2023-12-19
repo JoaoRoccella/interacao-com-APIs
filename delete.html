@@ -79,7 +79,7 @@
                 produtos.append(tituloProdutos);
 
                 resposta.forEach(produto => {
-                    produtos.innerHTML += `<ul><li>ID: ${produto.id}</li><li>Nome: ${produto.nome}</li><li>Tipo: ${produto.tipo ? produto.tipo : ""}</li></ul>`;
+                    produtos.innerHTML += `<ul id="${produto.id}"><li>ID: ${produto.id}</li><li>Nome: ${produto.nome}</li><li>Tipo: ${produto.tipo ? produto.tipo : ""}</li></ul>`;
                 });
             })
         }
