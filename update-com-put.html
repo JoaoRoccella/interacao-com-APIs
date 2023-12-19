@@ -18,7 +18,7 @@
 
         <div class="controle-form">
             <label for="nomeProduto">Nome:</label>
-            <input type="text" id="nomeProduto" name="nomeProduto" required>
+            <input type="text" id="nomeProduto" name="nomeProduto" required autofocus>
         </div>
 
         <div class="controle-form">
@@ -86,11 +86,30 @@
                 divProdutos.append(tituloProdutos);
 
                 resposta.forEach(produto => {
-                    divProdutos.innerHTML += `<ul><li>ID: ${produto.id}</li><li>Nome: ${produto.nome}</li><li>Tipo: ${produto.tipo ?? ""}</li></ul>`;
+
+                    const ulProduto = document.createElement('ul');
+                    ulProduto.id = `produto-${produto.id}`;
+                    ulProduto.classList.add('produto');
+
+                    const liIdProduto = document.createElement('li');
+                    liIdProduto.innerHTML = produto.id;
+
+                    const liNomeProduto = document.createElement('li');
+                    liNomeProduto.innerHTML = produto.nome ?? "";
+                    
+                    const liTipoProduto = document.createElement('li');
+                    liTipoProduto.innerHTML = produto.tipo ?? "";
+
+                    divProdutos.appendChild(ulProduto).append(liIdProduto, liNomeProduto, liTipoProduto);
+
                 });
             })
 
         }
+
+        document.addEventListener('click', event => {
+            console.log(event);
+        });
     </script>
 </body>
 </html>

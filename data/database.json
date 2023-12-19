@@ -14,21 +14,6 @@
       "id": 5,
       "nome": "Roda",
       "tipo": "Controle"
-    },
-    {
-      "id": 7,
-      "nome": "Escapamento",
-      "tipo": "Carroceria"
-    },
-    {
-      "id": 8,
-      "nome": "Radio",
-      "tipo": "Opcional"
-    },
-    {
-      "id": 9,
-      "nome": "Alavanca de seta",
-      "tipo": "Opcional"
     }
   ],
   "clientes": [
