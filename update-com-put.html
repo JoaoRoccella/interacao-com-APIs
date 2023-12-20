@@ -18,7 +18,7 @@
 
         <div class="controle-form">
             <label for="nomeProduto">Nome:</label>
-            <input type="text" id="nomeProduto" name="nomeProduto" required autofocus>
+            <input type="text" id="nomeProduto" name="nomeProduto" required>
         </div>
 
         <div class="controle-form">
@@ -93,12 +93,15 @@
 
                     const liIdProduto = document.createElement('li');
                     liIdProduto.innerHTML = produto.id;
+                    liIdProduto.setAttribute('data-produto', 'idProduto');
 
                     const liNomeProduto = document.createElement('li');
                     liNomeProduto.innerHTML = produto.nome ?? "";
+                    liNomeProduto.setAttribute('data-produto', 'nomeProduto');
                     
                     const liTipoProduto = document.createElement('li');
                     liTipoProduto.innerHTML = produto.tipo ?? "";
+                    liTipoProduto.setAttribute('data-produto', 'tipoProduto');
 
                     divProdutos.appendChild(ulProduto).append(liIdProduto, liNomeProduto, liTipoProduto);
 
@@ -107,9 +110,20 @@
 
         }
 
-        document.addEventListener('click', event => {
-            console.log(event);
+        document.querySelector('#produtos').addEventListener('click', event => {
+
+            const elBaseProduto = event.target.closest('ul');
+            
+            if (elBaseProduto.classList.contains('produto')) {
+
+                document.querySelector('#idProduto').value = elBaseProduto.querySelector('[data-produto="idProduto"]').innerHTML;
+
+                document.querySelector('#nomeProduto').value = elBaseProduto.querySelector('[data-produto="nomeProduto"]').innerHTML;
+
+                document.querySelector('#tipoProduto').value = elBaseProduto.querySelector('[data-produto="tipoProduto"]').innerHTML;
+            }
         });
+
     </script>
 </body>
 </html>
