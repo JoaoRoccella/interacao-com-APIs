@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interação com APIs</title>
+    <style>
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            background-color: #0008;
+        }
+
+        #modalUpdate, #modalCreate {
+            position: absolute;
+            top: calc(50% - 150px);
+            left: calc(50% - 200px);
+            width: 400px;
+            height: 300px;
+            z-index: 2;
+            background-color: #fff;
+            border-radius: 12px;
+        }
+
+        .oculto {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>CRUD Produtos</h1>
+    <a href="./index.html">↩ Home</a>
+
+    <button type="button" id="novoProduto">➕ Novo produto</button>
+    <input type="search" id="termoPesquisa" placeholder="pesquisar">
+
+    <div id="produtos"></div>
+
+    <div id="overlay" class="oculto"></div>
+
+    <div id="modalUpdate" class="modal oculto">
+
+        <h3>Formulário de Atualização</h3>
+
+        <form action="" method="post">
+
+            <div class="controle-form">
+                <label for="idProduto">ID:</label>
+                <input type="number" min="1" id="idProduto" name="idProduto" required>
+            </div>
+
+            <div class="controle-form">
+                <label for="nomeProduto">Nome:</label>
+                <input type="text" id="nomeProduto" name="nomeProduto" required>
+            </div>
+
+            <div class="controle-form">
+                <label for="tipoProduto">Tipo:</label>
+                <select name="tipoProduto" id="tipoProduto" required>
+                    <option value="Controle" selected>Controle</option>
+                    <option value="Segurança">Segurança</option>
+                    <option value="Suspensão">Suspensão</option>
+                    <option value="Carroceria">Carroceria</option>
+                    <option value="Acessório">Acessório</option>
+                </select>
+            </div>
+
+            <button type="button" id="atualizar">Atualizar</button>
+            <button type="reset" id="cancelarAtualizacao">Cancelar</button>
+
+        </form>
+
+    </div>
+
+    <div id="modalCreate" class="modal oculto">
+
+        <h3>Formulário de Cadastro</h3>
+
+        <form action="" method="post">
+
+            <div class="controle-form">
+                <label for="nomeProduto">Nome:</label>
+                <input type="text" id="nomeProduto" name="nomeProduto" required>
+            </div>
+
+            <div class="controle-form">
+                <label for="tipoProduto">Tipo:</label>
+                <select name="tipoProduto" id="tipoProduto" required>
+                    <option value="Controle" selected>Controle</option>
+                    <option value="Segurança">Segurança</option>
+                    <option value="Suspensão">Suspensão</option>
+                    <option value="Carroceria">Carroceria</option>
+                    <option value="Acessório">Acessório</option>
+                </select>
+            </div>
+
+            <button type="button" id="cadastrar">Cadastrar</button>
+            <button type="reset" id="cancelarCadastro">Cancelar</button>
+
+        </form>
+    </div>
+
+    <script>
+        buscaProdutos();
+
+        document.querySelector('#atualizar').addEventListener('click', () => {
+
+            const dadosProduto = {
+                "id": null,
+                "nome": document.querySelector('#nomeProduto').value,
+                "tipo": document.querySelector('#tipoProduto').value
+            }
+
+            const idProduto = document.querySelector('#idProduto').value;
+
+            fetch(`http://[::1]:3000/produtos/${idProduto}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(dadosProduto)
+            })
+                .then(resposta => {
+                    if (resposta.ok) {
+                        window.alert('Produto atualizado!');
+                        buscaProdutos();
+                    } else {
+                        window.alert('Erro');
+                    }
+                })
+        });
+
+        function buscaProdutos(termoPesquisa = false) {
+
+            const urlRequisicao = termoPesquisa ? `http://[::1]:3000/produtos?nome_like=${termoPesquisa}` : 'http://[::1]:3000/produtos';
+
+            fetch(urlRequisicao, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+                .then(resposta => resposta.json())
+                .then(resposta => {
+
+                    const produtos = document.querySelector('#produtos');
+                    const tituloProdutos = document.createElement('h2');
+
+                    produtos.innerHTML = '';
+                    tituloProdutos.innerHTML = 'Produtos';
+                    produtos.append(tituloProdutos);
+
+                    resposta.forEach(produto => {
+
+                        const ulProduto = document.createElement('ul');
+                        ulProduto.id = `produto-${produto.id}`;
+                        ulProduto.classList.add('produto');
+
+                        const liIdProduto = document.createElement('li');
+                        liIdProduto.innerHTML = produto.id;
+                        liIdProduto.setAttribute('data-test', 'liIdProduto');
+                        liIdProduto.setAttribute('data-produto', 'idProduto');
+
+                        const liNomeProduto = document.createElement('li');
+                        liNomeProduto.innerHTML = produto.nome ?? "";
+                        liNomeProduto.setAttribute('data-produto', 'nomeProduto');
+
+                        const liTipoProduto = document.createElement('li');
+                        liTipoProduto.innerHTML = produto.tipo ?? "";
+                        liTipoProduto.setAttribute('data-produto', 'tipoProduto');
+
+                        produtos.appendChild(ulProduto).append(liIdProduto, liNomeProduto, liTipoProduto);
+
+                    });
+                })
+        }
+
+        document.querySelector('#produtos').addEventListener('click', event => {
+
+            if (event.target.closest('ul').classList.contains('produto')) {
+
+                document.querySelector('#idProduto').value = event.target.closest('ul').querySelector('[data-produto="idProduto"]').innerHTML;
+
+                document.querySelector('#nomeProduto').value = event.target.closest('ul').querySelector('[data-produto="nomeProduto"]').innerHTML;
+
+                document.querySelector('#tipoProduto').value = event.target.closest('ul').querySelector('[data-produto="tipoProduto"]').innerHTML;
+
+                document.querySelector('#overlay').classList.toggle('oculto');
+                document.querySelector('#modalUpdate').classList.toggle('oculto');
+
+            }
+        });
+        
+        document.querySelector('#novoProduto').addEventListener('click', () => {
+            document.querySelector('#overlay').classList.toggle('oculto');
+            document.querySelector('#modalCreate').classList.toggle('oculto');
+        });
+
+        document.querySelector('#cancelarAtualizacao').addEventListener('click', () => {
+            document.querySelector('#overlay').classList.toggle('oculto');
+            document.querySelector('#modalUpdate').classList.toggle('oculto');
+        });
+
+        document.querySelector('#cancelarCadastro').addEventListener('click', () => {
+            document.querySelector('#overlay').classList.toggle('oculto');
+            document.querySelector('#modalCreate').classList.toggle('oculto');
+        });
+
+        document.querySelector('#overlay').addEventListener('click', event => {
+            event.target.classList.toggle('oculto');
+
+            document.querySelectorAll('.modal').forEach(modal => {
+                if (!modal.classList.contains('oculto')) {
+                    modal.classList.toggle('oculto');
+                }
+            })
+        })
+        
+        document.querySelector('#termoPesquisa').addEventListener('search', () => {
+
+            buscaProdutos(document.querySelector('#termoPesquisa').value);
+
+        });
+        </script>
+</body>
+
+</html>
