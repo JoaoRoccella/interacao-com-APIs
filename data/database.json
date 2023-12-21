@@ -1,24 +1,39 @@
 {
   "produtos": [
     {
-      "id": 37,
-      "nome": "Mola de suspensão",
-      "tipo": "Suspensão"
-    },
-    {
       "id": 38,
       "nome": "Alavanca do câmbio",
-      "tipo": "Controle"
-    },
-    {
-      "id": 39,
-      "nome": "Buzina",
       "tipo": "Controle"
     },
     {
       "id": 40,
       "nome": "Alavanca de seta",
       "tipo": "Controle"
+    },
+    {
+      "id": 41,
+      "nome": "Mola de suspensão",
+      "tipo": "Suspensão"
+    },
+    {
+      "id": 42,
+      "nome": "Buzina",
+      "tipo": "Controle"
+    },
+    {
+      "id": 43,
+      "nome": "Retrovisor direito",
+      "tipo": "Segurança"
+    },
+    {
+      "id": 44,
+      "nome": "Retrovisor esquerdo",
+      "tipo": "Segurança"
+    },
+    {
+      "id": 45,
+      "nome": "Retrovisor central",
+      "tipo": "Segurança"
     }
   ],
   "clientes": [

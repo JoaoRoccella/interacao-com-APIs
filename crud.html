@@ -5,40 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interação com APIs</title>
-    <style>
-        #overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            background-color: #0008;
-        }
-
-        #modalUpdate, #modalCreate {
-            position: absolute;
-            top: calc(50% - 150px);
-            left: calc(50% - 200px);
-            width: 400px;
-            height: 300px;
-            z-index: 2;
-            background-color: #fff;
-            border-radius: 12px;
-        }
-
-        .oculto {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1>CRUD Produtos</h1>
     <a href="./index.html">↩ Home</a>
 
-    <button type="button" id="novoProduto">➕ Novo produto</button>
-    <input type="search" id="termoPesquisa" placeholder="pesquisar">
+    <div class="bt-controles">
+        <button type="button" id="novoProduto">➕ Novo produto</button>
+        <input type="search" id="termoPesquisa" placeholder="pesquisar">
+    </div>
+
 
     <div id="produtos"></div>
 
@@ -48,7 +26,7 @@
 
         <h3>Formulário de Atualização</h3>
 
-        <form action="" method="post">
+        <form id="formUpdate" action="" method="post">
 
             <div class="controle-form">
                 <label for="idProduto">ID:</label>
@@ -82,15 +60,15 @@
 
         <h3>Formulário de Cadastro</h3>
 
-        <form action="" method="post">
+        <form id="formCreate" action="" method="post">
 
             <div class="controle-form">
-                <label for="nomeProduto">Nome:</label>
+                <label for="nomeProduto">Nome</label>
                 <input type="text" id="nomeProduto" name="nomeProduto" required>
             </div>
 
             <div class="controle-form">
-                <label for="tipoProduto">Tipo:</label>
+                <label for="tipoProduto">Tipo</label>
                 <select name="tipoProduto" id="tipoProduto" required>
                     <option value="Controle" selected>Controle</option>
                     <option value="Segurança">Segurança</option>
@@ -100,8 +78,10 @@
                 </select>
             </div>
 
-            <button type="button" id="cadastrar">Cadastrar</button>
-            <button type="reset" id="cancelarCadastro">Cancelar</button>
+            <div class="botoes">
+                <button type="button" id="cadastrar">Cadastrar</button>
+                <button type="reset" id="cancelarCadastro">Cancelar</button>
+            </div>
 
         </form>
     </div>
@@ -113,11 +93,11 @@
 
             const dadosProduto = {
                 "id": null,
-                "nome": document.querySelector('#nomeProduto').value,
-                "tipo": document.querySelector('#tipoProduto').value
+                "nome": document.querySelector('#modalUpdate #nomeProduto').value,
+                "tipo": document.querySelector('#modalUpdate #tipoProduto').value
             }
 
-            const idProduto = document.querySelector('#idProduto').value;
+            const idProduto = document.querySelector('#modalUpdate #idProduto').value;
 
             fetch(`http://[::1]:3000/produtos/${idProduto}`, {
                 method: 'PUT',
@@ -156,6 +136,25 @@
                     tituloProdutos.innerHTML = 'Produtos';
                     produtos.append(tituloProdutos);
 
+                    const headingProdutos = document.createElement('ul');
+                    headingProdutos.classList.add('heading-produto');
+
+                    const liHeadingId = document.createElement('li');
+                    liHeadingId.innerHTML = 'ID';
+
+                    const liHeadingNome = document.createElement('li');
+                    liHeadingNome.innerHTML = 'Nome';
+
+                    const liHeadingTipo = document.createElement('li');
+                    liHeadingTipo.innerHTML = 'Tipo';
+
+                    const liHeadingBt = document.createElement('li');
+                    liHeadingBt.innerHTML = '';
+                    
+                    headingProdutos.append(liHeadingId, liHeadingNome, liHeadingTipo, liHeadingBt);
+
+                    produtos.appendChild(headingProdutos);
+
                     resposta.forEach(produto => {
 
                         const ulProduto = document.createElement('ul');
@@ -175,7 +174,25 @@
                         liTipoProduto.innerHTML = produto.tipo ?? "";
                         liTipoProduto.setAttribute('data-produto', 'tipoProduto');
 
-                        produtos.appendChild(ulProduto).append(liIdProduto, liNomeProduto, liTipoProduto);
+                        const btDelete = document.createElement('button');
+                        btDelete.type = 'button';
+                        btDelete.setAttribute('data-produto', 'btAcao');
+                        btDelete.setAttribute('data-targetId', produto.id);
+                        btDelete.innerHTML = '❌ Apagar';
+
+                        const liBtDelete = document.createElement('li');
+                        liBtDelete.setAttribute('data-produto', 'btAcao');
+
+                        liBtDelete.appendChild(btDelete);
+
+                        produtos
+                            .appendChild(ulProduto)
+                            .append(
+                                liIdProduto,
+                                liNomeProduto,
+                                liTipoProduto,
+                                liBtDelete
+                            );
 
                     });
                 })
@@ -183,20 +200,43 @@
 
         document.querySelector('#produtos').addEventListener('click', event => {
 
-            if (event.target.closest('ul').classList.contains('produto')) {
+            const elBase = event.target.closest('ul');
 
-                document.querySelector('#idProduto').value = event.target.closest('ul').querySelector('[data-produto="idProduto"]').innerHTML;
+            if (elBase.classList.contains('produto')) {
 
-                document.querySelector('#nomeProduto').value = event.target.closest('ul').querySelector('[data-produto="nomeProduto"]').innerHTML;
+                if (event.target.getAttribute('data-produto') !== 'btAcao') {
 
-                document.querySelector('#tipoProduto').value = event.target.closest('ul').querySelector('[data-produto="tipoProduto"]').innerHTML;
+                    document.querySelector('#idProduto').value = elBase.querySelector('[data-produto="idProduto"]').innerHTML;
 
-                document.querySelector('#overlay').classList.toggle('oculto');
-                document.querySelector('#modalUpdate').classList.toggle('oculto');
+                    document.querySelector('#nomeProduto').value = elBase.querySelector('[data-produto="nomeProduto"]').innerHTML;
+
+                    document.querySelector('#tipoProduto').value = elBase.querySelector('[data-produto="tipoProduto"]').innerHTML;
+
+                    document.querySelector('#overlay').classList.toggle('oculto');
+                    document.querySelector('#modalUpdate').classList.toggle('oculto');
+                } else {
+
+                    const idProduto = event.target.getAttribute('data-targetId');
+
+                    fetch(`http://[::1]:3000/produtos/${idProduto}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-type': 'application/json'
+                        }
+                    })
+                        .then(resposta => {
+                            if (resposta.ok) {
+                                window.alert('Produto removido!');
+                                buscaProdutos();
+                            } else {
+                                window.alert('Erro');
+                            }
+                        })
+                }
 
             }
         });
-        
+
         document.querySelector('#novoProduto').addEventListener('click', () => {
             document.querySelector('#overlay').classList.toggle('oculto');
             document.querySelector('#modalCreate').classList.toggle('oculto');
@@ -218,16 +258,48 @@
             document.querySelectorAll('.modal').forEach(modal => {
                 if (!modal.classList.contains('oculto')) {
                     modal.classList.toggle('oculto');
+                    modal.querySelector('form').reset();
                 }
             })
         })
-        
+
         document.querySelector('#termoPesquisa').addEventListener('search', () => {
 
             buscaProdutos(document.querySelector('#termoPesquisa').value);
 
         });
-        </script>
+
+        document.querySelector('#cadastrar').addEventListener('click', () => {
+
+            const dadosProduto = {
+                "id": null,
+                "nome": document.querySelector('#modalCreate #nomeProduto').value,
+                "tipo": document.querySelector('#modalCreate #tipoProduto').value
+            }
+
+            fetch('http://[::1]:3000/produtos', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(dadosProduto)
+            })
+                .then(resposta => {
+                    if (resposta.ok) {
+                        window.alert('Produto cadastrado!');
+                        buscaProdutos();
+
+                        // Após buscar os produtos, oculta a overlay e modal de cadastro
+                        document.querySelector('#overlay').classList.toggle('oculto');
+                        document.querySelector('#modalCreate').classList.toggle('oculto');
+                        // e reseta o formulário de cadastro.
+                        document.querySelector('#formCreate').reset();
+                    } else {
+                        window.alert('Erro');
+                    }
+                })
+        });
+    </script>
 </body>
 
 </html>

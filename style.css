@@ -1,0 +1,129 @@
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    background-color: #0008;
+}
+
+#modalUpdate,
+#modalCreate {
+    position: absolute;
+    top: calc(50% - 150px);
+    left: calc(50% - 200px);
+    width: 400px;
+    height: 300px;
+    z-index: 2;
+    background-color: #fff;
+    border-radius: 12px;
+}
+
+.oculto {
+    display: none;
+    transition: all 2s;
+}
+
+.bt-controles {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    line-height: 2;
+    white-space: nowrap;
+}
+
+input[type="text"],
+input[type="search"],
+input[type="number"] {
+    line-height: 2;
+    padding-left: 10px;
+}
+
+select {
+    height: 32px;
+}
+
+input[type="search"] {
+    width: 100%;
+}
+
+.produto,
+.heading-produto {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    line-height: 1.5;
+    padding: 5px 0;
+}
+
+.produto {
+    cursor: pointer;
+}
+
+.produto:nth-child(even),
+.heading-produto {
+    background-color: #ccc;
+}
+
+.heading-produto li {
+    font-weight: bold;
+}
+
+.produto li:first-child,
+.heading-produto li:first-child {
+    padding-left: 40px;
+    width: 5rem;
+}
+
+.produto li:last-child,
+.heading-produto li:last-child {
+    padding-right: 40px;
+    width: 5rem;
+}
+
+.produto li[data-produto="nomeProduto"],
+.heading-produto li:nth-child(2) {
+    width: 20rem;
+}
+.produto li[data-produto="tipoProduto"],
+.heading-produto li:nth-child(3) {
+   width: 10rem;
+}
+
+form {
+    width: 280px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.controle-form {
+    margin: 10px 0;
+    gap: 10px;
+}
+
+#formCreate {
+    box-sizing: border-box;
+}
+
+#formCreate input {
+    width: 100%;
+}   
+
+#formCreate label {
+
+}
+
+#formCreate select {
+    width: 100%;    
+    padding-left: 10px;
+}
+
+#formCreate option {
+    margin-left: 50px;
+}
